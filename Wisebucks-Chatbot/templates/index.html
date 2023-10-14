@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Chatbot Interface</title>
+</head>
+<body>
+    <header>
+        <span class="back-btn">< Dashboard</span>
+        <h2>WISEBUCK.AI</h2>
+    </header>
+        <div class="container">
+            <h1>Chat with our Bot</h1>
+            <input type="text" class="question" placeholder="Ask a question">
+            <button class="btn ask">Ask</button>
+            <p class="message">Status</p>
+        
+            <div id="answer" style="display:none;"></div>
+        </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html> 
