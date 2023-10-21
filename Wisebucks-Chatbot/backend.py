@@ -1,49 +1,38 @@
-
 from flask import Flask, request, jsonify
-import requests
-from bs4 import BeautifulSoup
-import openai
-from flask import send_from_directory
-import os
 from flask import render_template
+from getpass import getpass
+from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
 
 app = Flask(__name__)
 
-HEADERS = ({
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36',
-    'Accept-Language': 'en-US, en;q=0.5'
-})
+# Get OpenAI API key
+# OPENAI_API_KEY = getpass()
+# import os
+# os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-openai.api_key = "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"
+OPENAI_API_KEY = "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"
+import os
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
-
 @app.route('/ask', methods=['POST'])
 def ask():
     question = request.json['question']
-   # reviews = request.json['reviews']
     
-    
-    messages = [{"role": "system", "content": "You are a helpful assistant that has knowledge on financial related information"}]
-    messages.append({"role": "user", "content": question})
-    
+    template = """Financial Query: {question}
+Response: """
 
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=messages
-    )
-
-    answer = response['choices'][0]['message']['content']
+    prompt = PromptTemplate(template=template, input_variables=["question"])
+    llm = OpenAI()
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    answer = llm_chain.run(question)
+    
     return jsonify(answer=answer)
-
 
 if __name__ == '__main__':
     app.run()
-
-
-
-
-
