@@ -12,7 +12,7 @@ app = Flask(__name__)
 # import os
 # os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = ""
 import os
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
